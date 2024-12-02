@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | LiWei</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">LiWei</div>
+      </div>
+    </div>
+    <script>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/LiWei.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/LiWei.data.unityweb",
+        frameworkUrl: buildUrl + "/LiWei.framework.js.unityweb",
+        codeUrl: buildUrl + "/LiWei.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "LiWei",
+        productVersion: "0.1",
+      };
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        config.devicePixelRatio = 1;
+      } else {
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+      loadingBar.style.display = "block";
+      var gameInstance=null;
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+       createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+		gameInstance=unityInstance;
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+	  
+	  
+     
+	   function BeginTime()
+	  {
+	  console.log("Unity已经启动");
+	  }
+	  //接口测试
+	  //首页三个按钮
+	  //港口概览点击
+	  function OnHarbourOverviewClick_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","OnHarbourOverviewClick");
+	  }
+	  //设备详情点击
+	  function OnDeviceInfoClick_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","OnDeviceInfoClick");
+	  }
+	  //部件详情点击
+	  function OnPartDetailsClick_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","OnPartDetailsClick");
+	  }
+	  
+	  ///最佳视角
+	  //港口层级最佳视角
+	  function SetCamToBestViewPos_HarbourOverview_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetCamToBestViewPos_HarbourOverview");
+	  }
+	   //设备层级最佳视角
+	  function SetCamToBestViewPos_DeviceInfo_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetCamToBestViewPos_DeviceInfo");
+	  }
+	  //部件层级最佳视角
+	  function SetCamToBestViewPos_PartDetails_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetCamToBestViewPos_PartDetails");
+	  }
+	 
+	 //设置天气，"sun":晴天，"cloudy":阴天，"rain":雨天，"snow":雪天
+	  function SetWeather_JS(weather_String)
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetWeather",weather_String);
+	  }
+	  //设置时间，"morning":早上,"noon":中午,"afternoon":下午,"night":晚上
+	  function SetTime_JS(time_String)
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetTime",time_String);
+	  }
+	  
+	  
+	  //切换设备，传入设备ID,"ShoreBridge":岸桥,"TyreCrane":轮胎吊,"RMG":轨道吊
+	  function ChangeDeviceForID_JS(deviceID_String)
+	  {
+	  gameInstance.SendMessage("JSCallUnity","ChangeDeviceForID",deviceID_String);
+	  }
+	  //部件设备，传入部件ID,"ElectricMachine01":岸桥中的电动机
+	  function ChangePartForID_JS(partID_String)
+	  {
+	  gameInstance.SendMessage("JSCallUnity","ChangePartForID",partID_String);
+	  }
+	  
+	  //设置为透视模式
+	  function SetToFadeMode_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetToFadeMode");
+	  }
+	  //设置为爆炸模式
+	  function SetToBombMode_JS()
+	  {
+	  gameInstance.SendMessage("JSCallUnity","SetToBombMode");
+	  }
+	  
+	
+	  document.onkeydown = function (event) {
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+    // 按 A前往港口层级最佳视角
+    if (e && e.keyCode == 65) {
+        console.log("A,前往港口层级最佳视角");
+       SetCamToBestViewPos_HarbourOverview_JS();
+    }
+	 // 按 B前往设备层级最佳视角
+    if (e && e.keyCode == 66) {
+        console.log("B,前往设备层级最佳视角");
+       SetCamToBestViewPos_DeviceInfo_JS();
+    }
+	 // 按 C前往部件层级最佳视角
+    if (e && e.keyCode == 67) {
+        console.log("C,前往部件层级最佳视角");
+       SetCamToBestViewPos_PartDetails_JS();
+    }
+	// 按 D港口概览点击
+    if (e && e.keyCode == 68) {
+        console.log("D,港口概览点击");
+       OnHarbourOverviewClick_JS();
+    }
+	// 按 E设备详情点击
+    if (e && e.keyCode == 69) {
+        console.log("E,设备详情点击");
+       OnDeviceInfoClick_JS();
+    }
+	// 按 F部件详情点击
+    if (e && e.keyCode == 70) {
+        console.log("F,部件详情点击");
+       OnPartDetailsClick_JS();
+    }
+	
+	
+	
+	// 按 G切换设备到岸桥
+    if (e && e.keyCode == 71) {
+        console.log("G,切换设备到岸桥");
+       ChangeDeviceForID_JS("ShoreBridge");
+    }
+	// 按 H切换设备到轮胎吊
+    if (e && e.keyCode == 72) {
+        console.log("H,切换设备到轮胎吊");
+       ChangeDeviceForID_JS("TyreCrane");
+    }
+	// 按 I切换设备到轨道吊
+    if (e && e.keyCode == 73) {
+        console.log("I,切换设备到轨道吊");
+       ChangeDeviceForID_JS("RMG");
+    }
+	
+	// 按 J切换部件到电机01
+    if (e && e.keyCode == 74) {
+        console.log("J,切换设备到电机01");
+       ChangePartForID_JS("ElectricMachine01");
+    }
+	
+	
+	// 按 L透视模式
+    if (e && e.keyCode == 76) {
+        console.log("L,透视模式");
+       SetToFadeMode_JS();
+    }
+	// 按 M爆炸模式
+    if (e && e.keyCode == 77) {
+        console.log("M,爆炸模式");
+       SetToBombMode_JS();
+    }
+	
+	
+	 // 按 0
+	if (e && e.keyCode == 48) {
+        console.log("0,sun");
+       SetWeather_JS("sun");
+    }
+	 // 按 1
+	if (e && e.keyCode == 49) {
+        console.log("1,cloudy");
+       SetWeather_JS("cloudy");
+    }
+	 // 按 2
+	if (e && e.keyCode == 50) {
+        console.log("2,rain");
+       SetWeather_JS("rain");
+    }
+	 // 按 3
+	if (e && e.keyCode == 51) {
+        console.log("3,snow");
+       SetWeather_JS("snow");
+    }
+	// 按 4
+	if (e && e.keyCode == 52) {
+        console.log("4,morning");
+       SetTime_JS("morning");
+    }
+	// 按 5
+	if (e && e.keyCode == 53) {
+        console.log("5,noon");
+       SetTime_JS("noon");
+    }
+	// 按 6
+	if (e && e.keyCode == 54) {
+        console.log("6,afternoon");
+       SetTime_JS("afternoon");
+    }
+	// 按 7
+	if (e && e.keyCode == 55) {
+        console.log("7,night");
+       SetTime_JS("night");
+    }
+}
+	 //测试结束
+	  document.body.appendChild(script);
+    </script>
+  </body>
+</html>

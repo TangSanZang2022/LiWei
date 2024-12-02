@@ -1,0 +1,29 @@
+{
+  "memoryPoolObjConfigList": [
+    {
+      "prefabTypeStr": "WorldUIIcon",
+      "prefabPath": "Prefabs/UIPrefab/WorldUIIcon",
+      "memoryPoolTypeStr": "WorldUIIcon"
+    },
+    {
+      "prefabTypeStr": "AlarmLight",
+      "prefabPath": "Prefabs/AlarmLight/AlarmLight",
+      "memoryPoolTypeStr": "AlarmLight"
+    },
+    {
+      "prefabTypeStr": "AlarmUI",
+      "prefabPath": "Prefabs/AlarmUI/AlarmUI",
+      "memoryPoolTypeStr": "AlarmUI"
+    },
+    {
+      "prefabTypeStr": "Passenger",
+      "prefabPath": "Prefabs/MoveObjs/Passenger",
+      "memoryPoolTypeStr": "Passenger"
+    },
+    {
+      "prefabTypeStr": "Cigarette",
+      "prefabPath": "CigarettePrefabs/Cigarette",
+      "memoryPoolTypeStr": "Cigarette"
+    }
+  ]
+}
